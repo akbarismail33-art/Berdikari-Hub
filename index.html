@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BERDIKARI HUB — Affiliate Berdikari Pagerbarang Tegal</title>
+    <meta name="description" content="Selamat Datang di Kumpulan Aplikasi Karya Affiliate Berdikari Pagerbarang Tegal. Semua aplikasi disediakan GRATIS.">
+
+    <!-- Inisialisasi Tema Awal (Default Mode Gelap sesuai desain, menyimpan pilihan di localStorage) -->
+    <script>
+        (function () {
+            try {
+                var savedTheme = localStorage.getItem('berdikari-hub-theme');
+                if (savedTheme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                } else {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <style>
+        /* ==========================================================================
+           1. DESIGN TOKENS (DARK MODE DEFAULT & LIGHT MODE FUTURISTIK)
+           ========================================================================== */
+        :root {
+            /* Light Mode Palette */
+            --bg-base: #f0f7f6;
+            --dot-color: rgba(13, 148, 136, 0.14);
+            --header-bg: rgba(240, 247, 246, 0.85);
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+
+            --brand-hub: #059669;
+            --accent-mint: #059669;
+            --accent-cyan: #0d9488;
+            --logo-stroke: #0d9488;
+            --logo-glow: rgba(13, 148, 136, 0.25);
+
+            /* Toggle Switch Light */
+            --toggle-bg: #e2e8f0;
+            --toggle-border: rgba(15, 23, 42, 0.12);
+            --toggle-knob: #ffffff;
+            --toggle-icon-active: #0f172a;
+            --toggle-icon-idle: #64748b;
+
+            /* Hero Glass Banner Light */
+            --hero-bg: rgba(255, 255, 255, 0.82);
+            --hero-border: rgba(13, 148, 136, 0.28);
+            --hero-shadow: 0 20px 45px -15px rgba(13, 148, 136, 0.16);
+            --glow-spot-cyan: rgba(45, 212, 191, 0.22);
+            --glow-spot-mint: rgba(52, 211, 153, 0.22);
+
+            /* App Cards Light */
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(15, 23, 42, 0.1);
+            --card-border-hover: rgba(13, 148, 136, 0.45);
+            --card-shadow: 0 14px 32px -12px rgba(15, 23, 42, 0.08);
+
+            --icon-box-bg: #f0fdfa;
+            --icon-box-border: rgba(13, 148, 136, 0.3);
+
+            /* Primary CTA Button Light */
+            --btn-primary-bg: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+            --btn-primary-text: #ffffff;
+            --btn-primary-shadow: 0 8px 22px -4px rgba(13, 148, 136, 0.38);
+
+            /* Secondary YouTube Button Light */
+            --btn-yt-bg: #f8fafc;
+            --btn-yt-border: rgba(15, 23, 42, 0.16);
+            --btn-yt-text: #1e293b;
+            --btn-yt-hover: #f1f5f9;
+        }
+
+        html.dark {
+            /* Dark Mode Palette (Sesuai Mockup Referensi) */
+            --bg-base: #070d0e;
+            --dot-color: rgba(94, 234, 212, 0.11);
+            --header-bg: rgba(7, 13, 14, 0.82);
+            --text-main: #f8fafc;
+            --text-sub: #cbd5e1;
+            --text-muted: #94a3b8;
+
+            --brand-hub: #5eead4;
+            --accent-mint: #4ade80;
+            --accent-cyan: #5eead4;
+            --logo-stroke: #5eead4;
+            --logo-glow: rgba(94, 234, 212, 0.45);
+
+            /* Toggle Switch Dark */
+            --toggle-bg: #121b1d;
+            --toggle-border: rgba(255, 255, 255, 0.14);
+            --toggle-knob: #f8fafc;
+            --toggle-icon-active: #070d0e;
+            --toggle-icon-idle: #94a3b8;
+
+            /* Hero Glass Banner Dark */
+            --hero-bg: rgba(18, 28, 30, 0.72);
+            --hero-border: rgba(94, 234, 212, 0.22);
+            --hero-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.8);
+            --glow-spot-cyan: rgba(34, 211, 238, 0.26);
+            --glow-spot-mint: rgba(52, 211, 153, 0.24);
+
+            /* App Cards Dark */
+            --card-bg: rgba(14, 22, 24, 0.82);
+            --card-border: rgba(255, 255, 255, 0.11);
+            --card-border-hover: rgba(94, 234, 212, 0.42);
+            --card-shadow: 0 18px 40px -15px rgba(0, 0, 0, 0.75);
+
+            --icon-box-bg: rgba(20, 34, 36, 0.9);
+            --icon-box-border: rgba(94, 234, 212, 0.28);
+
+            /* Primary CTA Button Dark (Glowing Mint/Ice-Cyan Pill) */
+            --btn-primary-bg: #ccfbf1;
+            --btn-primary-text: #061314;
+            --btn-primary-shadow: 0 0 24px rgba(153, 246, 228, 0.38);
+
+            /* Secondary YouTube Button Dark */
+            --btn-yt-bg: rgba(18, 27, 29, 0.75);
+            --btn-yt-border: rgba(255, 255, 255, 0.16);
+            --btn-yt-text: #e2e8f0;
+            --btn-yt-hover: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE STYLES
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-base);
+            background-image: radial-gradient(var(--dot-color) 1.25px, transparent 1.25px);
+            background-size: 22px 22px;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.55;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+        }
+
+        /* ==========================================================================
+           3. HEADER & CUSTOM NEON CIRCUIT LOGO + PILL THEME SWITCH
+           ========================================================================== */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--header-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-inner {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 46px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 8px var(--logo-glow));
+            transition: transform 0.25s ease, filter 0.3s ease;
+        }
+
+        .brand:hover .brand-logo {
+            transform: translateY(-1px) scale(1.03);
+        }
+
+        .brand-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .brand-text .word-berdikari {
+            color: var(--text-main);
+        }
+
+        .brand-text .word-hub {
+            color: var(--brand-hub);
+            text-shadow: 0 0 16px var(--logo-glow);
+        }
+
+        /* Pill Theme Switcher (Sesuai Pojok Kanan Atas Mockup) */
+        .theme-pill {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 74px;
+            height: 36px;
+            padding: 3px;
+            border-radius: 999px;
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-pill:focus-visible {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 2px;
+        }
+
+        .theme-knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--toggle-knob);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+        }
+
+        /* Saat Dark Mode aktif, posisi knob di kiri (ikon matahari terang) atau geser sesuai status */
+        html.dark .theme-knob {
+            transform: translateX(0px);
+        }
+
+        html:not(.dark) .theme-knob {
+            transform: translateX(38px);
+        }
+
+        .theme-icon-slot {
+            position: relative;
+            z-index: 2;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.25s ease;
+        }
+
+        .theme-icon-slot svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        html.dark .slot-sun {
+            color: var(--toggle-icon-active);
+        }
+        html.dark .slot-moon {
+            color: var(--toggle-icon-idle);
+        }
+
+        html:not(.dark) .slot-sun {
+            color: var(--toggle-icon-idle);
+        }
+        html:not(.dark) .slot-moon {
+            color: var(--toggle-icon-active);
+        }
+
+        /* ==========================================================================
+           4. HERO BANNER (GLASSMORPHIC CARD DENGAN AMBIENT CYAN/MINT GLOW)
+           ========================================================================== */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem 0 3.5rem;
+        }
+
+        .hero-card {
+            position: relative;
+            border-radius: 22px;
+            background: var(--hero-bg);
+            border: 1px solid var(--hero-border);
+            box-shadow: var(--hero-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 2.35rem 1.4rem;
+            text-align: center;
+            overflow: hidden;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Cahaya ambient lembut di dalam kartu banner (sesuai mockup) */
+        .hero-card::before,
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-card::before {
+            width: 260px;
+            height: 260px;
+            top: -40px;
+            right: -30px;
+            background: radial-gradient(circle, var(--glow-spot-cyan) 0%, transparent 70%);
+        }
+
+        .hero-card::after {
+            width: 280px;
+            height: 280px;
+            bottom: -60px;
+            left: -40px;
+            background: radial-gradient(circle, var(--glow-spot-mint) 0%, transparent 70%);
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.32;
+            letter-spacing: -0.015em;
+            color: var(--text-main);
+            margin-bottom: 1.15rem;
+        }
+
+        .hero-title .highlight-mint {
+            color: var(--accent-mint);
+        }
+
+        .hero-subtitle {
+            font-size: 0.96rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text-sub);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .hero-subtitle .highlight-gratis {
+            color: var(--accent-mint);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           5. APPLICATION GRID & CARDS
+           ========================================================================== */
+        .apps-section {
+            margin-top: 2rem;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.35rem;
+        }
+
+        .app-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.45rem;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--card-border-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.15rem;
+        }
+
+        .app-icon-box {
+            width: 66px;
+            height: 66px;
+            border-radius: 16px;
+            background: var(--icon-box-bg);
+            border: 1px solid var(--icon-box-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 14px rgba(94, 234, 212, 0.08);
+        }
+
+        .app-icon-box svg {
+            width: 36px;
+            height: 36px;
+            color: var(--accent-cyan);
+            filter: drop-shadow(0 0 6px var(--logo-glow));
+        }
+
+        .app-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .app-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .app-name .accent-tag {
+            color: var(--accent-cyan);
+        }
+
+        .app-subtitle {
+            font-size: 0.98rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           6. ACTION BUTTONS (BUKA APLIKASI & TUTORIAL YOUTUBE)
+           ========================================================================== */
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-open-app {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 48px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            box-shadow: var(--btn-primary-shadow);
+            transition: transform 0.16s ease, filter 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-open-app:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .btn-open-app:active {
+            transform: scale(0.985);
+        }
+
+        .btn-tutorial-yt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            width: 100%;
+            min-height: 46px;
+            padding: 0.7rem 1.25rem;
+            border-radius: 12px;
+            background: var(--btn-yt-bg);
+            border: 1px solid var(--btn-yt-border);
+            color: var(--btn-yt-text);
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.16s ease;
+        }
+
+        .btn-tutorial-yt:hover {
+            background: var(--btn-yt-hover);
+            border-color: var(--card-border-hover);
+        }
+
+        .btn-tutorial-yt:active {
+            transform: scale(0.985);
+        }
+
+        .btn-tutorial-yt svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            opacity: 0.88;
+        }
+
+        /* ==========================================================================
+           7. FOOTER MINIMALIS
+           ========================================================================== */
+        .site-footer {
+            padding: 1.5rem 0 2rem;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           8. RESPONSIVE BREAKPOINTS (TABLET & DESKTOP)
+           ========================================================================== */
+        @media (min-width: 720px) {
+            .header-inner {
+                height: 80px;
+            }
+
+            .brand-logo {
+                width: 46px;
+                height: 50px;
+            }
+
+            .brand-text {
+                font-size: 1.45rem;
+            }
+
+            .main-content {
+                padding: 1.75rem 0 4rem;
+            }
+
+            .hero-card {
+                padding: 3.15rem 2.75rem;
+            }
+
+            .hero-title {
+                font-size: 2.15rem;
+                line-height: 1.28;
+            }
+
+            .hero-subtitle {
+                font-size: 1.06rem;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .app-card {
+                padding: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================================================================
+         HEADER: LOGO NEON SIRKUIT + JUDUL BERDIKARI HUB + PILL THEME TOGGLE
+         ====================================================================== -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#" class="brand" aria-label="Beranda BERDIKARI HUB">
+                <!-- Logo Vektor Neon Panah Sirkuit & Not Musik (Sesuai Gambar Referensi) -->
+                <svg class="brand-logo" viewBox="0 0 100 112" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="neonCircuitGrad" x1="15" y1="8" x2="85" y2="104" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#6ee7b7"/>
+                            <stop offset="55%" stop-color="#34d399"/>
+                            <stop offset="100%" stop-color="#22d3ee"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Outline Panah Sirkuit Naik & Not Musik Terpadu -->
+                    <path d="M50 7L84 41L73 51L57 35V82C57 95.5 47.5 104 35.5 104C24.5 104 17 96.5 17 86.5C17 76.5 24.5 69.5 34.5 69.5C38.5 69.5 41.5 70.5 43 71.5V35L27 51L16 41L50 7Z"
+                          stroke="url(#neonCircuitGrad)" stroke-width="3.6" stroke-linejoin="round"/>
+                    <!-- Jalur Sirkuit Internal & Node -->
+                    <path d="M50 16V82C50 91 43.5 96.5 35.5 96.5C28.5 96.5 24 92 24 86.5C24 81 28.5 76.8 34.5 76.8C38.5 76.8 42 78.8 43 81.5"
+                          stroke="url(#neonCircuitGrad)" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M43 26V42M57 24V34M33 34L43 24M67 34L57 24"
+                          stroke="url(#neonCircuitGrad)" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="50" cy="16" r="2.3" fill="#6ee7b7"/>
+                    <circle cx="43" cy="43" r="2.1" fill="#34d399"/>
+                    <circle cx="35.5" cy="86.5" r="2.4" fill="#22d3ee"/>
+                </svg>
+
+                <span class="brand-text">
+                    <span class="word-berdikari">BERDIKARI</span>
+                    <span class="word-hub">HUB</span>
+                </span>
+            </a>
+
+            <!-- Tombol Switch Mode Gelap / Terang (Pill Style) -->
+            <button id="theme-toggle" type="button" class="theme-pill" aria-label="Ganti Mode Gelap atau Mode Terang" title="Ganti Tema">
+                <span class="theme-knob" aria-hidden="true"></span>
+                <span class="theme-icon-slot slot-sun" aria-hidden="true">
+                    <!-- Ikon Matahari -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                </span>
+                <span class="theme-icon-slot slot-moon" aria-hidden="true">
+                    <!-- Ikon Bulan -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ======================================================================
+         KONTEN UTAMA
+         ====================================================================== -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- 1. HERO BANNER KACA FUTURISTIK -->
+            <section class="hero-card" aria-label="Banner Sambutan Berdikari Hub">
+                <div class="hero-inner">
+                    <h1 class="hero-title">
+                        Selamat Datang di Kumpulan Aplikasi Karya
+                        <span class="highlight-mint">Affiliate Berdikari Pagerbarang</span> Tegal
+                    </h1>
+                    <p class="hero-subtitle">
+                        Semua aplikasi di sini disediakan <span class="highlight-gratis">GRATIS</span> untuk semua orang yang sedang berjuang untuk Merubah Nasib untuk Menjemput Kemakmuran!
+                    </p>
+                </div>
+            </section>
+
+            <!-- 2. DAFTAR APLIKASI -->
+            <section class="apps-section" aria-label="Daftar Aplikasi Berdikari Hub">
+                <div class="apps-grid">
+
+                    <!-- ======================================================
+                         KARTU APLIKASI 1: BERDIKARI VO (Voice Over)
+                         ====================================================== -->
+                    <article class="app-card">
+                        <div class="card-header">
+                            <div class="app-icon-box" aria-hidden="true">
+                                <!-- Ikon Mikrofon + Gelombang Suara Neon -->
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="15.5" y="6" width="9" height="16" rx="4.5" stroke="currentColor" stroke-width="2.1"/>
+                                    <path d="M11 18.5C11 23.4706 15.0294 27.5 20 27.5C24.9706 27.5 29 23.4706 29 18.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+                                    <path d="M20 27.5V33M15 33H25" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+                                    <!-- Gelombang Audio Kiri & Kanan -->
+                                    <path d="M6.5 16V21M3.5 17.5V19.5M33.5 16V21M36.5 17.5V19.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="app-info">
+                                <h2 class="app-name">BERDIKARI <span class="accent-tag">VO</span></h2>
+                                <p class="app-subtitle">Voice Over</p>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <!-- GANTI LINK BERDIKARI VO DI SINI (Contoh: href="https://username.github.io/berdikari-vo/") -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-open-app">
+                                BUKA APLIKASI
+                            </a>
+
+                            <!-- GANTI LINK TUTORIAL YOUTUBE BERDIKARI VO DI SINI -->
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn-tutorial-yt">
+                                <span>TUTORIAL YOUTUBE</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.505 2.505 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- ======================================================
+                         KARTU APLIKASI 2: BERDIKARI SG (Scene Generator)
+                         ====================================================== -->
+                    <article class="app-card">
+                        <div class="card-header">
+                            <div class="app-icon-box" aria-hidden="true">
+                                <!-- Ikon Kamera & Scene Generator Neon -->
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 14.5C7 12.8431 8.34315 11.5 10 11.5H13.2L15 8.8C15.37 8.25 15.99 7.9 16.66 7.9H23.34C24.01 7.9 24.63 8.25 25 8.8L26.8 11.5H30C31.6569 11.5 33 12.8431 33 14.5V27.5C33 29.1569 31.6569 30.5 30 30.5H10C8.34315 30.5 7 29.1569 7 27.5V14.5Z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/>
+                                    <circle cx="20" cy="21" r="5.5" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M18.8 19.2L22.2 21L18.8 22.8V19.2Z" fill="currentColor"/>
+                                    <circle cx="28.5" cy="15.2" r="1.3" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="app-info">
+                                <h2 class="app-name">BERDIKARI <span class="accent-tag">SG</span></h2>
+                                <p class="app-subtitle">Scene Generator</p>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <!-- GANTI LINK BERDIKARI SG DI SINI (Contoh: href="https://username.github.io/berdikari-sg/") -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-open-app">
+                                BUKA APLIKASI
+                            </a>
+
+                            <!-- GANTI LINK TUTORIAL YOUTUBE BERDIKARI SG DI SINI -->
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn-tutorial-yt">
+                                <span>TUTORIAL YOUTUBE</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.505 2.505 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- ======================================================
+                         TEMPLATE KARTU APLIKASI BARU (UNCOMMENT JIKA INGIN MENAMBAH APLIKASI KE-3 DST)
+                    <article class="app-card">
+                        <div class="card-header">
+                            <div class="app-icon-box" aria-hidden="true">
+                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="8" width="24" height="24" rx="6" stroke="currentColor" stroke-width="2.1"/>
+                                    <path d="M20 14V26M14 20H26" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="app-info">
+                                <h2 class="app-name">BERDIKARI <span class="accent-tag">APP</span></h2>
+                                <p class="app-subtitle">Deskripsi Singkat Aplikasi</p>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-open-app">
+                                BUKA APLIKASI
+                            </a>
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="btn-tutorial-yt">
+                                <span>TUTORIAL YOUTUBE</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.505 2.505 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    ====================================================== -->
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ======================================================================
+         FOOTER MINIMALIS
+         ====================================================================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; BERDIKARI HUB — Affiliate Berdikari Pagerbarang Tegal</p>
+        </div>
+    </footer>
+
+    <!-- ======================================================================
+         SCRIPT PENGATUR MODE GELAP & MODE TERANG
+         ====================================================================== -->
+    <script>
+        (function () {
+            var toggleBtn = document.getElementById('theme-toggle');
+            if (!toggleBtn) return;
+
+            toggleBtn.addEventListener('click', function () {
+                var isDark = document.documentElement.classList.toggle('dark');
+                try {
+                    localStorage.setItem('berdikari-hub-theme', isDark ? 'dark' : 'light');
+                } catch (e) {}
+            });
+        })();
+    </script>
+
+</body>
+</html>
